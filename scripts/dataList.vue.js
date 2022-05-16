@@ -6,20 +6,28 @@ export default {
 	<button type="button" @click="clearButtonHandler">Clear</button>
 	<table>
 		<tr>
-			<th class="sortableHeader" @click="sortTrackData('songTitle')" @mouseenter="tableHeaderMouseEnterHandler('songTitle')" @mouseleave="tableHeaderMouseExitHandler('songTitle')"> {{ this.songTitle }} </th>
-			<th class="sortableHeader" @click="sortTrackData('playerName')" @mouseenter="tableHeaderMouseEnterHandler('playerName')" @mouseleave="tableHeaderMouseExitHandler('playerName')"> {{ this.playerName }} </th>
-			<th class="sortableHeader" @click="sortTrackData('sourceMedia')" @mouseenter="tableHeaderMouseEnterHandler('sourceMedia')" @mouseleave="tableHeaderMouseExitHandler('sourceMedia')"> {{ this.sourceMedia }} </th>
-			<th class="sortableHeader" @click="sortTrackData('album')" @mouseenter="tableHeaderMouseEnterHandler('album')" @mouseleave="tableHeaderMouseExitHandler('album')"> {{ this.album }} </th>
-			<th> {{ this.otherInfo }} </th>
+			<th class="sortableHeader" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')">
+				Title <div class="triangle" id="songTitleTriangle"> ▾ </div>
+			</th>
+			<th class="sortableHeader" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> 
+				Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
+			</th>
+			<th class="sortableHeader" @click="headerLabelClickHandler('sourceMedia', 'sourceMediaTriangle')" @mouseenter="mouseEnterHeaderHandler('sourceMedia', 'sourceMediaTriangle')" @mouseleave="mouseLeaveHeaderHandler('sourceMedia', 'sourceMediaTriangle')">
+				Source Media <div class="triangle" id="sourceMediaTriangle"> ▾ </div>
+			</th>
+			<th class="sortableHeader" @click="headerLabelClickHandler('album', 'albumTriangle')" @mouseenter="mouseEnterHeaderHandler('album', 'albumTriangle')" @mouseleave="mouseLeaveHeaderHandler('album', 'albumTriangle')">
+				Album <div class="triangle" id="albumTriangle"> ▾ </div>
+			</th>
+			<th> Additional Info </th>
 		</tr>
 		<tr>
 			<td>
 				<div id="notesText0" @click="notesClick(0)"> Click to show notes▸ </div>
 				<div class="hidden" id="hidden0"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate hendrerit nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec arcu massa, aliquam auctor iaculis vel, eleifend non erat. Vivamus a mi sed tortor elementum tincidunt. Curabitur finibus finibus ornare. Mauris bibendum ut nulla pretium viverra. Suspendisse tempor at risus quis rutrum. Nam auctor lorem condimentum ipsum consequat finibus. Proin sit amet lacus id arcu accumsan ultricies posuere ut lacus. Etiam lobortis, nisi a hendrerit ultrices, leo lorem maximus lacus, in molestie ex ante et tellus. Phasellus ultricies in est facilisis tristique. Nam venenatis metus nisl, congue malesuada nisi elementum nec. Phasellus dapibus libero et elit ultricies bibendum. Ut volutpat magna quis nunc sagittis placerat. Aliquam mattis ex vitae ultrices ultrices. </div>
 			</td>
-			<td class="sortableHeader" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHiddenTest('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHiddenTest('songTitle', 'songTitleTriangle')"> Title <div class="triangle" id="songTitleTriangle"> ▾ </div>
+			<td class="sortableHeader" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')"> Title <div class="triangle" id="songTitleTriangl"> ▾ </div>
 			</td>
-			<td class="sortableHeader" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHiddenTest('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHiddenTest('playerName', 'playerNameTriangle')"> Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
+			<td class="sortableHeader" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
 			</td>
 
 		</tr>
@@ -40,36 +48,11 @@ export default {
 	`,
 	data(){
 		return {
-			songTitle: "Title▾",
-			playerName: "Name in Player",
-			sourceMedia: "Source Media",
-			album: "Album",
-			otherInfo: "Additional Info",
-
 			textFilter: "",
 			textFilterPlaceholderText: "Song Title or Name in Player",
 
 			ascending: true,
 			currentSortColumn: 'songTitle',
-
-			testascending: true,
-			testcurrentSortColumn: 'songTitle',
-
-			plainLabels: {songTitle: "Title", 
-						  playerName: "Name in Player", 
-						  sourceMedia: "Source Media",
-						  album: "Album",
-						 },
-			ascendingSortLabels: {songTitle: "Title▾", 
-								  playerName: "Name in Player▾", 
-								  sourceMedia: "Source Media▾",
-								  album: "Album▾",
-								 },
-			descendingSortLabels: {songTitle: "Title▴", 
-								   playerName: "Name in Player▴", 
-								   sourceMedia: "Source Media▴",
-								   album: "Album▴",
-								  }
 
 		};
 	},
@@ -83,96 +66,6 @@ export default {
 
 	},
 	methods: {
-		sortTrackData(newSortField){
-			console.log("method sort");
-			let collator = new Intl.Collator("en", {sensitivity: "base"});
-			//compare using base so letters with diacrits are equal and case insensitive
-			//consider setting "numeric" option to true to do numeric comparisons ie 1>2>10
-			//consider setting "ignorePunctuation" option to true to ignore punctuation
-			if(this.clickedOnSameColumn(newSortField)){
-				console.log("invert ascending")
-				//clicked on same column, so invert it
-				this.ascending = !this.ascending;
-				console.log("ascending:", this.ascending)
-			}
-			else if(!this.ascending){
-				console.log("ascending for new column")
-				this.ascending = true;
-				console.log("ascending:", this.ascending)
-			}
-			//update the header labels
-			this.changeHeaderLabel(newSortField)
-			//update the sortByColumn
-			this.updateCurrentSortByColumn(newSortField)
-			//ascending: true -> top=a, bottom=z
-			if(this.ascending){
-				return this.trackList.sort((first, second) =>collator.compare(first[newSortField], second[newSortField]));
-			}
-			else{
-				//collator returns positive if first is first, negavite if second is first, and 0 if equal. Negate the result to invert
-				return this.trackList.sort((first, second) => -1*collator.compare(first[newSortField], second[newSortField]));
-			}
-		},
-		changeHeaderLabel(headerKey){
-			console.log("change header")
-			console.log("headerKey=",headerKey)
-			console.log("this[headerKey]=",this[headerKey])
-			if(this.clickedOnSameColumn(headerKey)){
-				if(this.ascending){
-					console.log("same column, ascending now")
-					//same column, ascending order now
-					this[headerKey] = this.ascendingSortLabels[headerKey];
-				}
-				else{
-					//same column, descending order now
-					console.log("same column, decending now")
-					this[headerKey] = this.descendingSortLabels[headerKey];
-					console.log("this[headerKey]=",this[headerKey])
-				}
-			}
-			else{
-				//different column, will always be ascending
-				//change the old column label
-				console.log("new column")
-				this[this.currentSortColumn] = this.plainLabels[this.currentSortColumn];
-				//change the new column label
-				this[headerKey] = this.ascendingSortLabels[headerKey];
-			}
-		},
-		clickedOnSameColumn(sortByField){
-			return this.currentSortColumn == sortByField;
-		},
-		updateCurrentSortByColumn(newSortBy){
-			if(this.currentSortColumn != newSortBy){
-				this.currentSortColumn = newSortBy
-			}
-		},
-		tableHeaderMouseEnterHandler(column){
-			if(this.currentSortColumn != column){
-				this[column] = this.ascendingSortLabels[column];
-			}
-			else{
-				if(this.ascending){
-					this[column] = this.descendingSortLabels[column];
-				}
-				else{
-					this[column] = this.ascendingSortLabels[column];
-				}
-			}
-		},
-		tableHeaderMouseExitHandler(column){
-			if(this.currentSortColumn != column){
-				this[column] = this.plainLabels[column];
-			}
-			else{
-				if(this.ascending){
-					this[column] = this.ascendingSortLabels[column];
-				}
-				else{
-					this[column] = this.descendingSortLabels[column];
-				}
-			}
-		},
 		basicFiltering(text){
 			let searchText = text.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
 			console.log("searchtext=",searchText)
@@ -223,9 +116,9 @@ export default {
 			}
 			console.log("after display:", getComputedStyle(document.getElementById(notesID)).display);
 		},
-		mouseEnterHiddenTest(column, triangleID){
+		mouseEnterHeaderHandler(column, triangleID){
 			console.log("test enter called")
-			if(this.testcurrentSortColumn != column){
+			if(this.currentSortColumn != column){
 				console.log("sorting by different")
 				//not sorting by this column, so just show the arrow
 				document.getElementById(triangleID).style.visibility = "visible";
@@ -233,7 +126,7 @@ export default {
 			else{
 				console.log("sorting by same")
 				//currently sorting by this column, so it's already visible
-				if(this.testascending){
+				if(this.ascending){
 					//show descending arrow
 					document.getElementById(triangleID).innerText = "▴";
 				}
@@ -243,9 +136,9 @@ export default {
 				}
 			}
 		},
-		mouseLeaveHiddenTest(column, triangleID){
+		mouseLeaveHeaderHandler(column, triangleID){
 			console.log("test exit called")
-			if(this.testcurrentSortColumn != column){
+			if(this.currentSortColumn != column){
 				console.log("sorting by different")
 				//not sorting by this column, so just hide the arrow
 				document.getElementById(triangleID).style.visibility = "hidden";
@@ -253,7 +146,7 @@ export default {
 			else{
 				console.log("sorting by same")
 				//sorting by this column, so it's already visible
-				if(this.testascending){
+				if(this.ascending){
 					//show ascending arrow
 					document.getElementById(triangleID).innerText = "▾";
 				}
@@ -265,9 +158,9 @@ export default {
 		},
 		headerLabelChangeTest(column, triangleID){
 			console.log("test label change called")
-			if(this.testcurrentSortColumn == column){
+			if(this.currentSortColumn == column){
 				//this is the same column
-				if(this.testascending){
+				if(this.ascending){
 					//ascending
 					document.getElementById(triangleID).innerText = "▾";
 				}
@@ -278,7 +171,7 @@ export default {
 			}
 			else{
 				//different column
-				let oldsortTriangle = this.testcurrentSortColumn + "Triangle";
+				let oldsortTriangle = this.currentSortColumn + "Triangle";
 				//make the old triangle down
 				document.getElementById(oldsortTriangle).innerText = "▾";
 				//now hide it
@@ -289,21 +182,29 @@ export default {
 		},
 		headerLabelClickHandler(column, triangleID){
 			console.log("test header label click called")
-			if(this.testcurrentSortColumn == column){
+			if(this.currentSortColumn == column){
 				//clicked on same column, so invert ascending
-				this.testascending = !this.testascending;
+				this.ascending = !this.ascending;
 			}
 			else{
 				//clicked on different column, set ascending to true
-				this.testascending = true;
+				this.ascending = true;
 			}
 			//update the labels
 			this.headerLabelChangeTest(column, triangleID);
 			//update the sortByColumn
-			if(this.testcurrentSortColumn != column){
-				this.testcurrentSortColumn = column;
+			if(this.currentSortColumn != column){
+				this.currentSortColumn = column;
 			}
 			//do sorting here
+			let collator = new Intl.Collator("en", {sensitivity: "base"});
+			if(this.ascending){
+				return this.trackList.sort((first, second) =>collator.compare(first[column], second[column]));
+			}
+			else{
+				//collator returns positive if first is first, negavite if second is first, and 0 if equal. Negate the result to invert
+				return this.trackList.sort((first, second) => -1*collator.compare(first[column], second[column]));
+			}
 		}
 
 	},
