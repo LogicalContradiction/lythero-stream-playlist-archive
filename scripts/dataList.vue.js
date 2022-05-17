@@ -34,7 +34,6 @@ export default {
 					<div class="notesHider" :id="'notesText'+ item.id" @click="notesClickHandler(item.id)"> Click to show notes ▸ </div>
 					<div class="hidden" :id="'hidden' + item.id" v-html="item.notes"> </div>
 				</div>
-				<div v-else-if="isValidNotes(item.notes)" :title="item.notes"> Notes (hover to view) </div>
 			</td>
 		</tr>
 	</table>
