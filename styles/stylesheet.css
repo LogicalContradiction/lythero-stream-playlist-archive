@@ -25,7 +25,7 @@ td, th {
 }
 
 .sortableHeader {
-	cursor: pointer
+	cursor: pointer;
 }
 
 tr:nth-child(even) {
@@ -39,4 +39,11 @@ tr:nth-child(even) {
 
 #songTitleTriangle{
 	visibility: visible;
+}
+
+.notesHider{
+	text-decoration: underline;
+	cursor: pointer;
+	text-decoration-style: dotted;
+	text-decoration-thickness: 1px;
 }

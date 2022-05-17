@@ -20,17 +20,6 @@ export default {
 			</th>
 			<th> Additional Info </th>
 		</tr>
-		<tr>
-			<td>
-				<div id="notesText0" @click="notesClick(0)"> Click to show notes▸ </div>
-				<div class="hidden" id="hidden0"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vulputate hendrerit nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec arcu massa, aliquam auctor iaculis vel, eleifend non erat. Vivamus a mi sed tortor elementum tincidunt. Curabitur finibus finibus ornare. Mauris bibendum ut nulla pretium viverra. Suspendisse tempor at risus quis rutrum. Nam auctor lorem condimentum ipsum consequat finibus. Proin sit amet lacus id arcu accumsan ultricies posuere ut lacus. Etiam lobortis, nisi a hendrerit ultrices, leo lorem maximus lacus, in molestie ex ante et tellus. Phasellus ultricies in est facilisis tristique. Nam venenatis metus nisl, congue malesuada nisi elementum nec. Phasellus dapibus libero et elit ultricies bibendum. Ut volutpat magna quis nunc sagittis placerat. Aliquam mattis ex vitae ultrices ultrices. </div>
-			</td>
-			<td class="sortableHeader" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')"> Title <div class="triangle" id="songTitleTriangl"> ▾ </div>
-			</td>
-			<td class="sortableHeader" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
-			</td>
-
-		</tr>
 		<tr v-for="item in filteredData" :key="item.id">
 			<td v-if="isValidSongLink(item.songLink)"> <a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
 			<td v-else> {{ item.songTitle}} </td>
@@ -40,7 +29,11 @@ export default {
 			<td v-else> {{ item.album }} </td>
 			<td>
 				<div v-if="isValidDBLink(item.albumDatabaseLink)"> <a :href="item.albumDatabaseLink" target="_blank"> Album Info </a> </div>
-				<div v-if="notesHasLink(item.notes)" v-html="item.notes"> </div>
+				<div v-if="isNotesJustLink(item.notes)" v-html="item.notes"> </div>
+				<div v-else-if="isValidNotes(item.notes)">
+					<div class="notesHider" :id="'notesText'+ item.id" @click="notesClickHandler(item.id)"> Click to show notes ▸ </div>
+					<div class="hidden" :id="'hidden' + item.id" v-html="item.notes"> </div>
+				</div>
 				<div v-else-if="isValidNotes(item.notes)" :title="item.notes"> Notes (hover to view) </div>
 			</td>
 		</tr>
@@ -68,7 +61,6 @@ export default {
 	methods: {
 		basicFiltering(text){
 			let searchText = text.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
-			console.log("searchtext=",searchText)
 			return this.trackList.filter((element) => (element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || (element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1))
 		},
 		clearButtonHandler(){
@@ -88,7 +80,6 @@ export default {
 			return notes != "";
 		},
 		notesHasLink(notes){
-			console.log("notes:", notes)
 			if("abcd".includes("a")){
 				//test to see if browser supports string.includes (IE does not)
 				if(notes.includes("<a href=")){
@@ -102,29 +93,27 @@ export default {
 			}
 			return true;
 		},
-		notesClick(rowNum){
+		isNotesJustLink(notes){
+			return notes.indexOf("<a ") === 0 && notes.indexOf("</a>") === notes.length-4;
+		},
+		notesClickHandler(rowNum){
 			let notesID = "hidden" + rowNum;
-			console.log("before display:", getComputedStyle(document.getElementById(notesID)).display);
 			let currentDisplay = getComputedStyle(document.getElementById(notesID)).display;
 			if(currentDisplay === "none") {
 				document.getElementById(notesID).style.display = "block";
-				document.getElementById("notesText" + rowNum).textContent = "Click to hide notes◂";
+				document.getElementById("notesText" + rowNum).textContent = "Click to hide notes ◂";
 			}
 			else{
 				document.getElementById(notesID).style.display = "none";
-				document.getElementById("notesText" + rowNum).textContent = "Click to show notes▸"
+				document.getElementById("notesText" + rowNum).textContent = "Click to show notes ▸"
 			}
-			console.log("after display:", getComputedStyle(document.getElementById(notesID)).display);
 		},
 		mouseEnterHeaderHandler(column, triangleID){
-			console.log("test enter called")
 			if(this.currentSortColumn != column){
-				console.log("sorting by different")
 				//not sorting by this column, so just show the arrow
 				document.getElementById(triangleID).style.visibility = "visible";
 			}
 			else{
-				console.log("sorting by same")
 				//currently sorting by this column, so it's already visible
 				if(this.ascending){
 					//show descending arrow
@@ -137,14 +126,11 @@ export default {
 			}
 		},
 		mouseLeaveHeaderHandler(column, triangleID){
-			console.log("test exit called")
 			if(this.currentSortColumn != column){
-				console.log("sorting by different")
 				//not sorting by this column, so just hide the arrow
 				document.getElementById(triangleID).style.visibility = "hidden";
 			}
 			else{
-				console.log("sorting by same")
 				//sorting by this column, so it's already visible
 				if(this.ascending){
 					//show ascending arrow
@@ -157,7 +143,6 @@ export default {
 			}
 		},
 		headerLabelChangeTest(column, triangleID){
-			console.log("test label change called")
 			if(this.currentSortColumn == column){
 				//this is the same column
 				if(this.ascending){
@@ -181,7 +166,6 @@ export default {
 			}
 		},
 		headerLabelClickHandler(column, triangleID){
-			console.log("test header label click called")
 			if(this.currentSortColumn == column){
 				//clicked on same column, so invert ascending
 				this.ascending = !this.ascending;
