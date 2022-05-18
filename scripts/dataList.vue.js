@@ -6,21 +6,21 @@ export default {
 	<button type="button" @click="clearButtonHandler">Clear</button>
 	<table>
 		<tr>
-			<th class="sortableHeader" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')">
+			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')">
 				Title <div class="triangle" id="songTitleTriangle"> ▾ </div>
 			</th>
-			<th class="sortableHeader" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> 
+			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> 
 				Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
 			</th>
-			<th class="sortableHeader" @click="headerLabelClickHandler('sourceMedia', 'sourceMediaTriangle')" @mouseenter="mouseEnterHeaderHandler('sourceMedia', 'sourceMediaTriangle')" @mouseleave="mouseLeaveHeaderHandler('sourceMedia', 'sourceMediaTriangle')">
+			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('sourceMedia', 'sourceMediaTriangle')" @mouseenter="mouseEnterHeaderHandler('sourceMedia', 'sourceMediaTriangle')" @mouseleave="mouseLeaveHeaderHandler('sourceMedia', 'sourceMediaTriangle')">
 				Source Media <div class="triangle" id="sourceMediaTriangle"> ▾ </div>
 			</th>
-			<th class="sortableHeader" @click="headerLabelClickHandler('album', 'albumTriangle')" @mouseenter="mouseEnterHeaderHandler('album', 'albumTriangle')" @mouseleave="mouseLeaveHeaderHandler('album', 'albumTriangle')">
+			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('album', 'albumTriangle')" @mouseenter="mouseEnterHeaderHandler('album', 'albumTriangle')" @mouseleave="mouseLeaveHeaderHandler('album', 'albumTriangle')">
 				Album <div class="triangle" id="albumTriangle"> ▾ </div>
 			</th>
-			<th> Additional Info </th>
+			<th class="headerRow"> Additional Info </th>
 		</tr>
-		<tr v-for="item in filteredData" :key="item.id">
+		<tr class="tableRow" v-for="item in filteredData" :key="item.id">
 			<td v-if="isValidSongLink(item.songLink)"> <a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
 			<td v-else> {{ item.songTitle}} </td>
 			<td> {{ item.playerName }} </td>

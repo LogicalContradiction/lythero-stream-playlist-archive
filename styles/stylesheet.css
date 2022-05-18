@@ -1,3 +1,7 @@
+body {
+	background-color: #dee2e6;
+}
+
 #app {
 	width: 98%;
 	margin-left: auto;
@@ -15,9 +19,22 @@ table {
 }
 
 td, th {
-	border: 1px solid #dddddd;
+	/*border: 1px solid #dddddd;*/
 	text-align: left;
 	padding: 8px;
+	border: 1px solid #dee2e6;
+}
+
+.tableRow {
+	background-color: #adb5bd;
+	vertical-align: top;
+	border: 1px solid #adb5bd;
+}
+
+.headerRow {
+	background-color: #868e96;
+	color: #F1F3F5;
+	/*border: 1px solid #868e96;*/
 }
 
 .hidden {
@@ -29,7 +46,10 @@ td, th {
 }
 
 tr:nth-child(even) {
-	background-color: #dddddd;
+	background-color: #CFD4DA;
+	vertical-align: top;
+	/*color: #d2d3d3;*/
+	/*border: 1px solid #CFD4DA;*/
 }
 
 .triangle{
