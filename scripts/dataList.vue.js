@@ -21,7 +21,7 @@ export default {
 			<th class="headerRow infoColumn"> Additional Info </th>
 		</tr>
 		<tr class="tableRow" v-for="item in filteredData" :key="item.id">
-			<td class="titleColumn" v-if="isValidSongLink(item.songLink)"> <a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
+			<td class="titleColumn" v-if="isValidSongLink(item.songLink)"><a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
 			<td class="titleColumn" v-else> {{ item.songTitle}} </td>
 			<td class="nameColumn"> {{ item.playerName }} </td>
 			<td class="sourceColumn"> {{ item.sourceMedia }} </td>
