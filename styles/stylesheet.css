@@ -9,9 +9,17 @@ body {
 	font-family: arial, sans-serif;
 }
 
-input {
-	margin: 5px;
+#filterTextEntry {
+	margin: 3px;
 	width: 20%;
+	padding: 5px;
+	background-color: #f8f9fa;
+}
+
+#filterButton {
+	margin: 3px;
+	padding: 5px;
+	cursor: pointer;
 }
 
 table {
@@ -45,6 +53,26 @@ td, th {
 	cursor: pointer;
 }
 
+.titleColumn {
+	width: 25%;
+}
+
+.nameColumn {
+	width: 23%;
+}
+
+.sourceColumn {
+	width: 20%;
+}
+
+.albumColumn {
+	width: 20%;
+}
+
+.infoColumn {
+	width: 12%;
+}
+
 tr:nth-child(even) {
 	background-color: #CFD4DA;
 	vertical-align: top;
@@ -66,4 +94,8 @@ tr:nth-child(even) {
 	cursor: pointer;
 	text-decoration-style: dotted;
 	text-decoration-thickness: 1px;
+}
+
+a:link {
+	color: #1d13d1;
 }

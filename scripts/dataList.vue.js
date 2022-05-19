@@ -3,31 +3,31 @@ export default {
 	template: `
 	<label for="filterTextEntry"> Filter: </label>
 	<input type="text" id="filterTextEntry" v-model="textFilter" :placeholder="textFilterPlaceholderText">
-	<button type="button" @click="clearButtonHandler">Clear</button>
+	<button type="button" id="filterButton" @click="clearButtonHandler">Clear</button>
 	<table>
 		<tr>
-			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')">
+			<th class="sortableHeader headerRow titleColumn" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')">
 				Title <div class="triangle" id="songTitleTriangle"> ▾ </div>
 			</th>
-			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> 
+			<th class="sortableHeader headerRow nameColumn" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> 
 				Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
 			</th>
-			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('sourceMedia', 'sourceMediaTriangle')" @mouseenter="mouseEnterHeaderHandler('sourceMedia', 'sourceMediaTriangle')" @mouseleave="mouseLeaveHeaderHandler('sourceMedia', 'sourceMediaTriangle')">
+			<th class="sortableHeader headerRow sourceColumn" @click="headerLabelClickHandler('sourceMedia', 'sourceMediaTriangle')" @mouseenter="mouseEnterHeaderHandler('sourceMedia', 'sourceMediaTriangle')" @mouseleave="mouseLeaveHeaderHandler('sourceMedia', 'sourceMediaTriangle')">
 				Source Media <div class="triangle" id="sourceMediaTriangle"> ▾ </div>
 			</th>
-			<th class="sortableHeader headerRow" @click="headerLabelClickHandler('album', 'albumTriangle')" @mouseenter="mouseEnterHeaderHandler('album', 'albumTriangle')" @mouseleave="mouseLeaveHeaderHandler('album', 'albumTriangle')">
+			<th class="sortableHeader headerRow albumColumn" @click="headerLabelClickHandler('album', 'albumTriangle')" @mouseenter="mouseEnterHeaderHandler('album', 'albumTriangle')" @mouseleave="mouseLeaveHeaderHandler('album', 'albumTriangle')">
 				Album <div class="triangle" id="albumTriangle"> ▾ </div>
 			</th>
-			<th class="headerRow"> Additional Info </th>
+			<th class="headerRow infoColumn"> Additional Info </th>
 		</tr>
 		<tr class="tableRow" v-for="item in filteredData" :key="item.id">
-			<td v-if="isValidSongLink(item.songLink)"> <a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
-			<td v-else> {{ item.songTitle}} </td>
-			<td> {{ item.playerName }} </td>
-			<td> {{ item.sourceMedia }} </td>
-			<td v-if="isValidAlbumLink(item.albumPurchaseLink)"> <a :href="item.albumPurchaseLink" target="_blank"> {{ item.album }} </a></td>
-			<td v-else> {{ item.album }} </td>
-			<td>
+			<td class="titleColumn" v-if="isValidSongLink(item.songLink)"> <a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
+			<td class="titleColumn" v-else> {{ item.songTitle}} </td>
+			<td class="nameColumn"> {{ item.playerName }} </td>
+			<td class="sourceColumn"> {{ item.sourceMedia }} </td>
+			<td class="albumColumn" v-if="isValidAlbumLink(item.albumPurchaseLink)"> <a :href="item.albumPurchaseLink" target="_blank"> {{ item.album }} </a></td>
+			<td class="albumColumn" v-else> {{ item.album }} </td>
+			<td class="infoColumn">
 				<div v-if="isValidDBLink(item.albumDatabaseLink)"> <a :href="item.albumDatabaseLink" target="_blank"> Album Info </a> </div>
 				<div v-if="isNotesJustLink(item.notes)" v-html="item.notes"> </div>
 				<div v-else-if="isValidNotes(item.notes)">
