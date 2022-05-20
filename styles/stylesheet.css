@@ -12,14 +12,25 @@ body {
 #filterTextEntry {
 	margin: 3px;
 	width: 20%;
-	padding: 5px;
+	padding: 3px;
 	background-color: #f8f9fa;
+	border: 1px solid #767676;
+	border-radius: 2px;
+	min-width: 24ch;
+}
+
+#filterTextEntry:hover {
+	border: 1px solid #434343;
 }
 
 #filterButton {
 	margin: 3px;
-	padding: 5px;
+	padding: 3px 5px;
 	cursor: pointer;
+}
+
+#filterButton:hover {
+	filter: brightness(0.95);
 }
 
 table {
@@ -43,6 +54,8 @@ td, th {
 	background-color: #868e96;
 	color: #F1F3F5;
 	/*border: 1px solid #868e96;*/
+	position: sticky;
+	top: -1px;
 }
 
 .hidden {
@@ -55,22 +68,27 @@ td, th {
 
 .titleColumn {
 	width: 25%;
+	min-width: 7ch;
 }
 
 .nameColumn {
 	width: 23%;
+	min-width: 16ch;
 }
 
 .sourceColumn {
 	width: 20%;
+	min-width: 14ch;
 }
 
 .albumColumn {
 	width: 20%;
+	min-width: 7ch;
 }
 
 .infoColumn {
 	width: 12%;
+	min-width: 15;
 }
 
 tr:nth-child(even) {
