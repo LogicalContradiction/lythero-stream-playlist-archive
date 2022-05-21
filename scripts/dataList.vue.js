@@ -37,10 +37,9 @@ export default {
 			</td>
 		</tr>
 	</table>
-	<button type="button" @click="incrementPageNum"> Increment pagenum </button>
-	<button type="button" @click="decrementPageNum"> Decrement pagenum </button>
+	<button type="button" @click="decrementPageNum"> Pagenum - </button>
+	<button type="button" @click="incrementPageNum"> Pagenum + </button>
 	<button type="button" @click="changeNumEntriesPerPage(50)"> Change number entries per page </button>
-	<button type="button" @click="showTextFilter"> show text filter </button>
 	`,
 	data(){
 		return {
@@ -234,7 +233,10 @@ export default {
 		},
 		changeNumEntriesPerPage(newNumEntries){
 			console.log("num entries change called")
-			this.numEntriesPerPage = newNumEntries;
+			if(this.numEntriesPerPage != newNumEntries){
+				this.currentPageNum = 1;
+				this.numEntriesPerPage = newNumEntries;
+			}
 		},
 		showTextFilter(){
 			console.log("text filter:", this.textFilter);
