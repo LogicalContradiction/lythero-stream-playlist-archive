@@ -20,7 +20,7 @@ export default {
 			</th>
 			<th class="headerRow infoColumn"> Additional Info </th>
 		</tr>
-		<tr class="tableRow" v-for="item in filteredData" :key="item.id">
+		<tr class="tableRow" v-for="item in displayData" :key="item.id">
 			<td class="titleColumn" v-if="isValidSongLink(item.songLink)"><a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
 			<td class="titleColumn" v-else> {{ item.songTitle}} </td>
 			<td class="nameColumn"> {{ item.playerName }} </td>
@@ -37,32 +37,52 @@ export default {
 			</td>
 		</tr>
 	</table>
+	<button type="button" @click="incrementPageNum"> Increment pagenum </button>
+	<button type="button" @click="decrementPageNum"> Decrement pagenum </button>
+	<button type="button" @click="changeNumEntriesPerPage(50)"> Change number entries per page </button>
+	<button type="button" @click="showTextFilter"> show text filter </button>
 	`,
 	data(){
 		return {
 			textFilter: "",
 			textFilterPlaceholderText: "Song Title or Name in Player",
 
+			currentDataView: this.trackList,
+
 			ascending: true,
 			currentSortColumn: 'songTitle',
+
+			currentPageNum: 1,
+			numEntriesPerPage: 25,
+			maxNumPages: Math.ceil(this.trackList.length / 25),
 
 		};
 	},
 	computed: {
 		filteredData(){
+			console.log("filteredData called");
 			if(this.textFilter == ""){
-				return this.trackList
+				return this.getPageOfData();
 			}
-			return this.basicFiltering(this.textFilter)
+			return this.basicFiltering();
+		},
+		displayData(){
+			console.log("displayData called");
+			return this.getPageOfData()
 		}
 
 	},
 	methods: {
-		basicFiltering(text){
-			let searchText = text.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
-			return this.trackList.filter((element) => (element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || (element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1))
+		basicFiltering(){
+			console.log("basicFiltering called");
+			if(this.textFilter !== ""){
+				let searchText = this.textFilter.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+				this.currentDataView = this.trackList.filter((element) => (element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || (element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1))
+			}
+			return
 		},
 		clearButtonHandler(){
+			console.log("clearButtonHandler called");
 			this.textFilter = "";
 			document.getElementById("filterTextEntry").focus();
 		},
@@ -141,7 +161,7 @@ export default {
 				}
 			}
 		},
-		headerLabelChangeTest(column, triangleID){
+		headerLabelChange(column, triangleID){
 			if(this.currentSortColumn == column){
 				//this is the same column
 				if(this.ascending){
@@ -174,20 +194,75 @@ export default {
 				this.ascending = true;
 			}
 			//update the labels
-			this.headerLabelChangeTest(column, triangleID);
+			this.headerLabelChange(column, triangleID);
 			//update the sortByColumn
 			if(this.currentSortColumn != column){
 				this.currentSortColumn = column;
 			}
+			//reset page number
+			this.currentPageNum = 1;
 			//do sorting here
 			let collator = new Intl.Collator("en", {sensitivity: "base"});
 			if(this.ascending){
-				return this.trackList.sort((first, second) =>collator.compare(first[column], second[column]));
+				return this.currentDataView.sort((first, second) =>collator.compare(first[column], second[column]));
 			}
 			else{
 				//collator returns positive if first is first, negavite if second is first, and 0 if equal. Negate the result to invert
-				return this.trackList.sort((first, second) => -1*collator.compare(first[column], second[column]));
+				return this.currentDataView.sort((first, second) => -1*collator.compare(first[column], second[column]));
 			}
+		},
+		getPageOfData(){
+			console.log("getPageOfData called");
+			let startIndex = (this.currentPageNum - 1) * this.numEntriesPerPage;
+			let endIndex = this.currentPageNum * this.numEntriesPerPage;
+
+			return this.currentDataView.slice(startIndex, endIndex);
+		},
+		incrementPageNum(){
+			console.log("incrementPageNum called");
+			if(!(this.currentPageNum+1 > this.maxNumPages)){
+				this.currentPageNum++;
+			}
+			console.log("pageNum:", this.currentPageNum);
+		},
+		decrementPageNum(){
+			console.log("decrementPageNum called");
+			if(!(this.currentPageNum-1 <= 0)){
+				this.currentPageNum--;
+			}
+			console.log("pageNum:", this.currentPageNum);
+		},
+		changeNumEntriesPerPage(newNumEntries){
+			console.log("num entries change called")
+			this.numEntriesPerPage = newNumEntries;
+		},
+		showTextFilter(){
+			console.log("text filter:", this.textFilter);
+		},
+		setMaxNumPages(){
+			console.log("setMaxNumPages called");
+			this.maxNumPages = Math.ceil(this.currentDataView.length / this.numEntriesPerPage);
+			console.log("maxNumPages:", this.maxNumPages);
+		}
+
+	},
+	watch: {
+		textFilter(){
+			console.log("change in textFilter");
+			this.currentPageNum = 1;
+			if(this.textFilter !== ""){
+				let searchText = this.textFilter.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+				this.currentDataView = this.trackList.filter((element) => (element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || (element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1))
+			}
+			else{
+				this.currentDataView = this.trackList
+			}
+		},
+		currentDataView(){
+			this.setMaxNumPages();
+		},
+		numEntriesPerPage(){
+			this.setMaxNumPages();
 		}
 
 	},
