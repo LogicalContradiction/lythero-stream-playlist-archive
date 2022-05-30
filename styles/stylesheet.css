@@ -114,6 +114,20 @@ tr:nth-child(even) {
 	text-decoration-thickness: 1px;
 }
 
+#decPageNumButton {
+	float: left;
+	display: inline;
+}
+
+#incPageNumButton {
+	float: right;
+	display: inline;
+}
+
+#tableNavBar {
+	text-align: center;
+}
+
 a:link {
 	color: #1d13d1;
 }

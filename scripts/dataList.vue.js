@@ -37,9 +37,13 @@ export default {
 			</td>
 		</tr>
 	</table>
-	<button type="button" @click="decrementPageNum"> Pagenum - </button>
-	<button type="button" @click="incrementPageNum"> Pagenum + </button>
-	<button type="button" @click="changeNumEntriesPerPage(50)"> Change number entries per page </button>
+	<div id="tableNavBar">
+		<button type="button" id="decPageNumButton" @click="decrementPageNum"> < </button>
+		{{ currentPageNum }}
+		<button type="button" id="incPageNumButton" @click="incrementPageNum"> > </button>
+		<br>
+		<button type="button" @click="changeNumEntriesPerPage(50)"> Change number entries per page </button>
+	</div>
 	`,
 	data(){
 		return {
@@ -271,4 +275,13 @@ export default {
 	props: {
 		trackList: Array
 	}
+	//Turn buttons to change page nums into text w/ click handlers
+	//Have buttons to go to first and last page
+	//Make text box to allow user to jump to page they want to go to (it also shows current page if not clicked in)
+	//Text w/ click handler to change number of results per page
+	//Tell user number of pages there are
+	//Optional: figure out how to keep these buttons in the same area when table resizes so user can rapid click on button
+	//and not worry about the button moving on them due to elements resizing.
+	
+	//Majo no Tabi (Elena) - ep. 10 gif guy with gun both smug and getting mad and shooting faster
 }
