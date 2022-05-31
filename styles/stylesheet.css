@@ -114,15 +114,28 @@ tr:nth-child(even) {
 	text-decoration-thickness: 1px;
 }
 
-#decPageNumButton {
-	float: left;
-	display: inline;
+#decPageNumButton, #firstPageButton {
+	visibility: hidden;
 }
 
-#incPageNumButton {
+.tableNavButton {
+	cursor: pointer;
+	/*border-width: 2px;
+	border-style: solid;
+	border-color: transparent;*/
+	border-width: 0px;
+	background-color: transparent;
+}
+
+.tableNavButton:hover {
+	background-color: #eeeeee;
+	/*border-color: #eeeeee;*/
+}
+
+/*#incPageNumButton {
 	float: right;
 	display: inline;
-}
+}*/
 
 #tableNavBar {
 	text-align: center;

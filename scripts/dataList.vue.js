@@ -37,10 +37,13 @@ export default {
 			</td>
 		</tr>
 	</table>
+	<br>
 	<div id="tableNavBar">
-		<button type="button" id="decPageNumButton" @click="decrementPageNum"> < </button>
-		{{ currentPageNum }}
-		<button type="button" id="incPageNumButton" @click="incrementPageNum"> > </button>
+		<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> << </button>
+		<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> < </button>
+		{{ currentPageNum }} of {{ maxNumPages }}
+		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> > </button>
+		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> >> </button>
 		<br>
 		<button type="button" @click="changeNumEntriesPerPage(50)"> Change number entries per page </button>
 	</div>
@@ -203,7 +206,9 @@ export default {
 				this.currentSortColumn = column;
 			}
 			//reset page number
-			this.currentPageNum = 1;
+			//this.currentPageNum = 1;
+			//hide the decrement buttons
+			this.goToFirstPage();
 			//do sorting here
 			let collator = new Intl.Collator("en", {sensitivity: "base"});
 			if(this.ascending){
@@ -224,21 +229,38 @@ export default {
 		incrementPageNum(){
 			console.log("incrementPageNum called");
 			if(!(this.currentPageNum+1 > this.maxNumPages)){
+				//check to see if decrement buttons need to be unhid
+				if(this.currentPageNum === 1){
+					this.unhideDecrementButtons();
+				}
 				this.currentPageNum++;
+				//check to hide increment buttons here
+				if(this.currentPageNum === this.maxNumPages){
+					this.hideIncrementButtons();
+				}
 			}
 			console.log("pageNum:", this.currentPageNum);
 		},
 		decrementPageNum(){
 			console.log("decrementPageNum called");
 			if(!(this.currentPageNum-1 <= 0)){
+				//check to see if increment buttons need to be unhid
+				if(this.currentPageNum === this.maxNumPages){
+					this.unhideIncrementButtons();
+				}
 				this.currentPageNum--;
+				//check to hide decrement buttons here
+				if(this.currentPageNum === 1){
+					this.hideDecrementButtons();
+				}
 			}
 			console.log("pageNum:", this.currentPageNum);
 		},
 		changeNumEntriesPerPage(newNumEntries){
 			console.log("num entries change called")
 			if(this.numEntriesPerPage != newNumEntries){
-				this.currentPageNum = 1;
+				//this.currentPageNum = 1;
+				this.goToFirstPage();
 				this.numEntriesPerPage = newNumEntries;
 			}
 		},
@@ -249,13 +271,63 @@ export default {
 			console.log("setMaxNumPages called");
 			this.maxNumPages = Math.ceil(this.currentDataView.length / this.numEntriesPerPage);
 			console.log("maxNumPages:", this.maxNumPages);
-		}
-
+		},
+		goToLastPage(){
+			if(this.currentPageNum != this.maxNumPages){
+				this.currentPageNum = this.maxNumPages;
+				//hide the increment buttons here
+			}
+		},
+		goToFirstPage(){
+			//consider using this function wherever I want to return to the first page in other functions
+			if(this.currentPageNum != 1){
+				this.currentPageNum = 1;
+				//hide the decrement button here
+				this.hideDecrementButtons()
+				this.unhideIncrementButtons();
+			}
+		},
+		goToLastPage(){
+			if(this.currentPageNum != this.maxNumPages){
+				this.currentPageNum = this.maxNumPages;
+				this.hideIncrementButtons();
+				this.unhideDecrementButtons();
+			}
+		},
+		hideDecrementButtons(){
+			//hide both firstPageButton and decPageNumButton
+			this.hideButton("firstPageButton");
+			this.hideButton("decPageNumButton");			
+		},
+		unhideDecrementButtons(){
+			this.unhideButton("firstPageButton");
+			this.unhideButton("decPageNumButton");
+		},
+		hideIncrementButtons(){
+			this.hideButton("lastPageButton");
+			this.hideButton("incPageNumButton");
+		},
+		unhideIncrementButtons(){
+			this.unhideButton("lastPageButton");
+			this.unhideButton("incPageNumButton");
+		},
+		hideButton(buttonID){
+			let button = document.getElementById(buttonID);
+			if(button.style.visibility !== "hidden"){
+				button.style.visibility = "hidden";
+			}
+		},
+		unhideButton(buttonID){
+			let button = document.getElementById(buttonID);
+			if(button.style.visibility !== "visible"){
+				button.style.visibility = "visible";
+			}
+		},
 	},
 	watch: {
 		textFilter(){
 			console.log("change in textFilter");
-			this.currentPageNum = 1;
+			this.goToFirstPage();
 			if(this.textFilter !== ""){
 				let searchText = this.textFilter.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
 				this.currentDataView = this.trackList.filter((element) => (element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || (element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1))
