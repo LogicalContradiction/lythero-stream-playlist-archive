@@ -39,11 +39,16 @@ export default {
 	</table>
 	<br>
 	<div id="tableNavBar">
-		<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> << </button>
-		<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> < </button>
-		{{ currentPageNum }} of {{ maxNumPages }}
-		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> > </button>
-		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> >> </button>
+		<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> &lt&lt </button>
+		<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> &lt </button>
+		<span id="pageIndicator" @click="jumpToPageHandler">
+			<span class="currentPageNum"> {{ currentPageNum }} </span>
+			<span class="pageDivider"> of </span>
+			<span class="maxNumPages"> {{ maxNumPages }} </span>
+		</span>
+		<input type="text" id="jumpPageEntry" v-model="jumpToPageNumEntry" @blur="jumpToPageTextInputUnfocusHandler" @keyup.enter="jumpToPageTextInputUnfocusHandler" :placeholder="jumpToPageNumPlaceholder">
+		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> &gt </button>
+		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> &gt&gt </button>
 		<br>
 		<button type="button" @click="changeNumEntriesPerPage(50)"> Change number entries per page </button>
 	</div>
@@ -61,6 +66,9 @@ export default {
 			currentPageNum: 1,
 			numEntriesPerPage: 25,
 			maxNumPages: Math.ceil(this.trackList.length / 25),
+
+			jumpToPageNumPlaceholder: "Jump to page: 1-" + Math.ceil(this.trackList.length / 25),
+			jumpToPageNumEntry: "",
 
 		};
 	},
@@ -264,13 +272,12 @@ export default {
 				this.numEntriesPerPage = newNumEntries;
 			}
 		},
-		showTextFilter(){
-			console.log("text filter:", this.textFilter);
-		},
 		setMaxNumPages(){
 			console.log("setMaxNumPages called");
 			this.maxNumPages = Math.ceil(this.currentDataView.length / this.numEntriesPerPage);
 			console.log("maxNumPages:", this.maxNumPages);
+			//now update the placeholder text for jumping to a page
+			this.jumpToPageNumPlaceholder = "Jump to page: 1-" + this.maxNumPages;
 		},
 		goToLastPage(){
 			if(this.currentPageNum != this.maxNumPages){
@@ -323,6 +330,56 @@ export default {
 				button.style.visibility = "visible";
 			}
 		},
+		jumpToPageHandler(){
+			console.log("jumpToPageHandler called");
+			//first hide the page indicator
+			document.getElementById("pageIndicator").style.display = "none";
+			//now unhide the textbox
+			document.getElementById("jumpPageEntry").style.display = "inline";
+			//and set the focus to the textbox
+			document.getElementById("jumpPageEntry").focus()
+		},
+		jumpToPageTextInputUnfocusHandler(){
+			if(this.jumpToPageNumEntry !== ""){
+				console.log("Page number entered:",this.jumpToPageNumEntry);
+				this.goToPage(this.jumpToPageNumEntry);
+				this.jumpToPageNumEntry = "";
+			}
+			//rehide the textbox
+			document.getElementById("jumpPageEntry").style.display = "none";
+			//unhide the indicator
+			document.getElementById("pageIndicator").style.display = "inline";
+		},
+		goToPage(pageNumString){
+			//convert string rep of number into integer
+			let newPageNum = parseInt(pageNumString);
+			//now check that this is a valid page number
+			//not NaN, not < 1, and not > max number of pages
+			if(isNaN(newPageNum) || newPageNum < 1 || newPageNum > this.maxNumPages){
+				return
+			}
+			//valid page number, go to it.
+			//first unhide the buttons if we were on the first or last page
+			if(this.currentPageNum === 1){
+				this.unhideDecrementButtons();
+			}
+			else if(this.currentPageNum === this.maxNumPages){
+				this.unhideIncrementButtons();
+			}
+			//now change page number
+			if(newPageNum === 1){
+				this.goToFirstPage();
+			}
+			else if(newPageNum === this.maxNumPages){
+				this.goToLastPage();
+			}
+			else{
+				this.currentPageNum = newPageNum;
+			}
+		},
+		jumpToPageTextInputEnterHandler(){
+
+		}
 	},
 	watch: {
 		textFilter(){
@@ -347,13 +404,6 @@ export default {
 	props: {
 		trackList: Array
 	}
-	//Turn buttons to change page nums into text w/ click handlers
-	//Have buttons to go to first and last page
-	//Make text box to allow user to jump to page they want to go to (it also shows current page if not clicked in)
 	//Text w/ click handler to change number of results per page
 	//Tell user number of pages there are
-	//Optional: figure out how to keep these buttons in the same area when table resizes so user can rapid click on button
-	//and not worry about the button moving on them due to elements resizing.
-	
-	//Majo no Tabi (Elena) - ep. 10 gif guy with gun both smug and getting mad and shooting faster
 }

@@ -125,6 +125,7 @@ tr:nth-child(even) {
 	border-color: transparent;*/
 	border-width: 0px;
 	background-color: transparent;
+	font-weight: 600;
 }
 
 .tableNavButton:hover {
@@ -143,4 +144,16 @@ tr:nth-child(even) {
 
 a:link {
 	color: #1d13d1;
+}
+
+.currentPageNum, .maxNumPages {
+	font-weight: 550;
+}
+
+.pageDivider {
+	font-weight: 400;
+}
+
+#jumpPageEntry {
+	display: none;
 }
