@@ -67,7 +67,7 @@ export default {
 			numEntriesPerPage: 25,
 			maxNumPages: Math.ceil(this.trackList.length / 25),
 
-			jumpToPageNumPlaceholder: "Jump to page: 1-" + Math.ceil(this.trackList.length / 25),
+			jumpToPageNumPlaceholder: "Page #: 1-" + Math.ceil(this.trackList.length / 25),
 			jumpToPageNumEntry: "",
 
 		};
@@ -277,7 +277,7 @@ export default {
 			this.maxNumPages = Math.ceil(this.currentDataView.length / this.numEntriesPerPage);
 			console.log("maxNumPages:", this.maxNumPages);
 			//now update the placeholder text for jumping to a page
-			this.jumpToPageNumPlaceholder = "Jump to page: 1-" + this.maxNumPages;
+			this.jumpToPageNumPlaceholder = "Page #: 1-" + this.maxNumPages;
 		},
 		goToLastPage(){
 			if(this.currentPageNum != this.maxNumPages){

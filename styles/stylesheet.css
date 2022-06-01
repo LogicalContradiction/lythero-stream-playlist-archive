@@ -155,5 +155,8 @@ a:link {
 }
 
 #jumpPageEntry {
+	width: 12ch;
 	display: none;
+	text-align: center;
+	font-weight: 500;
 }
