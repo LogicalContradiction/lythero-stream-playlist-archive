@@ -57,7 +57,6 @@ export default {
 		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> &gt </button>
 		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> &gt&gt </button>
 	</div>
-	<button type="button" @click="scrollToTopofTable"> Click to scroll to top of table </button>
 	`,
 	data(){
 		return {
@@ -253,6 +252,8 @@ export default {
 				if(this.currentPageNum === this.maxNumPages){
 					this.hideIncrementButtons();
 				}
+				//now scroll to top
+				this.scrollToTopofTable();
 			}
 			console.log("pageNum:", this.currentPageNum);
 		},
@@ -270,6 +271,8 @@ export default {
 				}
 			}
 			console.log("pageNum:", this.currentPageNum);
+			//now scroll to top
+			this.scrollToTopofTable();
 		},
 		resultsPerPageClickHandler(newID){
 			if(newID !== this.currentNumEntriesPerPageID){
@@ -304,12 +307,6 @@ export default {
 			//now update the placeholder text for jumping to a page
 			this.jumpToPageNumPlaceholder = "Page #: 1-" + this.maxNumPages;
 		},
-		goToLastPage(){
-			if(this.currentPageNum != this.maxNumPages){
-				this.currentPageNum = this.maxNumPages;
-				//hide the increment buttons here
-			}
-		},
 		goToFirstPage(){
 			//consider using this function wherever I want to return to the first page in other functions
 			if(this.currentPageNum != 1){
@@ -317,6 +314,8 @@ export default {
 				//hide the decrement button here
 				this.hideDecrementButtons()
 				this.unhideIncrementButtons();
+				//now scroll to top
+				this.scrollToTopofTable();
 			}
 		},
 		goToLastPage(){
@@ -324,6 +323,8 @@ export default {
 				this.currentPageNum = this.maxNumPages;
 				this.hideIncrementButtons();
 				this.unhideDecrementButtons();
+				//now scroll to top
+				this.scrollToTopofTable();
 			}
 		},
 		hideDecrementButtons(){
@@ -376,6 +377,8 @@ export default {
 			}
 			//now return the navbar to text
 			this.returnNavbarText();
+			//now scroll to top
+			this.scrollToTopofTable();
 		},
 		returnNavbarText(){
 			//rehide the textbox
