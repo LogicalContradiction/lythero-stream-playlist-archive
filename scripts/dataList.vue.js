@@ -57,6 +57,7 @@ export default {
 		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> &gt </button>
 		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> &gt&gt </button>
 	</div>
+	<button type="button" @click="scrollToTopofTable"> Click to scroll to top of table </button>
 	`,
 	data(){
 		return {
@@ -408,6 +409,10 @@ export default {
 			else{
 				this.currentPageNum = newPageNum;
 			}
+		},
+		scrollToTopofTable(){
+			console.log("called");
+			document.getElementById("filterTextEntry").scrollIntoView({behavior: "smooth"});
 		}
 	},
 	watch: {

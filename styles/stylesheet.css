@@ -3,7 +3,7 @@ body {
 }
 
 #app {
-	width: 98%;
+	width: /*98%*/ 76.1875em;
 	margin-left: auto;
 	margin-right: auto;
 	font-family: arial, sans-serif;
@@ -35,6 +35,10 @@ body {
 
 table {
 	border-collapse: collapse;
+	width: 100%;
+	/*width:      /*1219px - could be a little bit bigger  76.1875em;*/
+	margin-left: auto;
+	margin-right: auto;
 }
 
 td, th {
@@ -126,10 +130,21 @@ tr:nth-child(even) {
 	border-width: 0px;
 	background-color: transparent;
 	font-weight: 600;
+	padding-top: 0.3125em;
+	padding-bottom: 0.125em;
+	width: 4ch;
 }
 
-.tableNavButton:hover {
-	background-color: #eeeeee;
+#pageIndicator {
+	cursor: pointer;
+	padding-top: 0.125em;
+	padding-bottom: 0.125em;
+	padding-left: 0.3125em;
+	padding-right: 0.3125em;
+}
+
+.tableNavButton:hover, #pageIndicator:hover {
+	background-color: #cccccc;
 	/*border-color: #eeeeee;*/
 }
 
