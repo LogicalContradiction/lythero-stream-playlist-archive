@@ -37,6 +37,13 @@ export default {
 			</td>
 		</tr>
 	</table>
+	<div id="resultsPerPageBar">
+		Results per page: 
+			<span class="selectedResultsPerPage" id="resultsPerPageLeast" @click="resultsPerPageClickHandler('resultsPerPageLeast')">25</span>
+			<span class="unselectedResultsPerPage" id="resultsPerPageMid" @click="resultsPerPageClickHandler('resultsPerPageMid')">50</span>
+			<span class="unselectedResultsPerPage" id="resultsPerPageMost" @click="resultsPerPageClickHandler('resultsPerPageMost')">100</span>
+			<span class="unselectedResultsPerPage" id="resultsPerPageAll" @click="resultsPerPageClickHandler('resultsPerPageAll')">All</span>
+	</div>
 	<br>
 	<div id="tableNavBar">
 		<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> &lt&lt </button>
@@ -49,8 +56,6 @@ export default {
 		<input type="text" id="jumpPageEntry" v-model="jumpToPageNumEntry" @blur="jumpToPageTextInputUnfocusHandler" @keyup.enter="jumpToPageTextInputUnfocusHandler" :placeholder="jumpToPageNumPlaceholder">
 		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> &gt </button>
 		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> &gt&gt </button>
-		<br>
-		<button type="button" @click="changeNumEntriesPerPage(50)"> Change number entries per page </button>
 	</div>
 	`,
 	data(){
@@ -65,6 +70,7 @@ export default {
 
 			currentPageNum: 1,
 			numEntriesPerPage: 25,
+			currentNumEntriesPerPageID: "resultsPerPageLeast",
 			maxNumPages: Math.ceil(this.trackList.length / 25),
 
 			jumpToPageNumPlaceholder: "Page #: 1-" + Math.ceil(this.trackList.length / 25),
@@ -263,6 +269,24 @@ export default {
 				}
 			}
 			console.log("pageNum:", this.currentPageNum);
+		},
+		resultsPerPageClickHandler(newID){
+			if(newID !== this.currentNumEntriesPerPageID){
+				let idLookup = {
+					"resultsPerPageLeast": 25,
+					"resultsPerPageMid": 50,
+					"resultsPerPageMost": 100,
+					"resultsPerPageAll": this.trackList.length
+				};
+				//set the new page amount
+				this.changeNumEntriesPerPage(idLookup[newID]);
+				//change the old id's class to unchosen
+				document.getElementById(this.currentNumEntriesPerPageID).className = "unselectedResultsPerPage";
+				//change the new id's class to chosen
+				document.getElementById(newID).className = "selectedResultsPerPage";
+				//update the page amount id
+				this.currentNumEntriesPerPageID = newID;
+			}
 		},
 		changeNumEntriesPerPage(newNumEntries){
 			console.log("num entries change called")
