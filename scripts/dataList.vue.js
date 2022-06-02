@@ -53,7 +53,7 @@ export default {
 			<span class="pageDivider"> of </span>
 			<span class="maxNumPages"> {{ maxNumPages }} </span>
 		</span>
-		<input type="text" id="jumpPageEntry" v-model="jumpToPageNumEntry" @blur="jumpToPageTextInputUnfocusHandler" @keyup.enter="jumpToPageTextInputUnfocusHandler" :placeholder="jumpToPageNumPlaceholder">
+		<input type="text" id="jumpPageEntry" v-model="jumpToPageNumEntry" @blur="jumpToPageTextInputUnfocusHandler" @keyup.enter="jumpToPageTextInputEnterHandler" :placeholder="jumpToPageNumPlaceholder">
 		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> &gt </button>
 		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> &gt&gt </button>
 	</div>
@@ -364,11 +364,19 @@ export default {
 			document.getElementById("jumpPageEntry").focus()
 		},
 		jumpToPageTextInputUnfocusHandler(){
+			//this will cancel the jump, so just switch the hide elements
+			this.returnNavbarText();
+		},
+		jumpToPageTextInputEnterHandler(){
 			if(this.jumpToPageNumEntry !== ""){
 				console.log("Page number entered:",this.jumpToPageNumEntry);
 				this.goToPage(this.jumpToPageNumEntry);
 				this.jumpToPageNumEntry = "";
 			}
+			//now return the navbar to text
+			this.returnNavbarText();
+		},
+		returnNavbarText(){
 			//rehide the textbox
 			document.getElementById("jumpPageEntry").style.display = "none";
 			//unhide the indicator
@@ -400,9 +408,6 @@ export default {
 			else{
 				this.currentPageNum = newPageNum;
 			}
-		},
-		jumpToPageTextInputEnterHandler(){
-
 		}
 	},
 	watch: {
