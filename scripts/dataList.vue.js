@@ -61,7 +61,7 @@ export default {
 	data(){
 		return {
 			textFilter: "",
-			textFilterPlaceholderText: "Song Title or Name in Player",
+			textFilterPlaceholderText: "Enter text to filter table",
 
 			currentDataView: this.trackList,
 
@@ -80,13 +80,6 @@ export default {
 		};
 	},
 	computed: {
-		filteredData(){
-			console.log("filteredData called");
-			if(this.textFilter == ""){
-				return this.getPageOfData();
-			}
-			return this.basicFiltering();
-		},
 		displayData(){
 			console.log("displayData called");
 			return this.getPageOfData()
@@ -446,7 +439,12 @@ export default {
 			this.goToFirstPage();
 			if(this.textFilter !== ""){
 				let searchText = this.textFilter.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
-				this.currentDataView = this.trackList.filter((element) => (element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || (element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1))
+				this.currentDataView = this.trackList.filter((element) => 
+					(element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || //song title
+					(element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || //name in player
+					(element.sourceMedia.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || //source media
+					(element.album.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1)  //album
+				)
 			}
 			else{
 				this.currentDataView = this.trackList
