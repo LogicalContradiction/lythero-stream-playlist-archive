@@ -82,6 +82,15 @@ export default {
 	computed: {
 		displayData(){
 			console.log("displayData called");
+			//now sort the results according to the current sort
+			let collator = new Intl.Collator("en", {sensitivity: "base"});
+			if(this.ascending){
+				this.currentDataView.sort((first, second) =>collator.compare(first[this.currentSortColumn], second[this.currentSortColumn]));
+			}
+			else{
+				//collator returns positive if first is first, negavite if second is first, and 0 if equal. Negate the result to invert
+				this.currentDataView.sort((first, second) => -1*collator.compare(first[this.currentSortColumn], second[this.currentSortColumn]));
+			}
 			return this.getPageOfData()
 		}
 
@@ -217,15 +226,6 @@ export default {
 			//this.currentPageNum = 1;
 			//hide the decrement buttons
 			this.goToFirstPage();
-			//do sorting here
-			let collator = new Intl.Collator("en", {sensitivity: "base"});
-			if(this.ascending){
-				return this.currentDataView.sort((first, second) =>collator.compare(first[column], second[column]));
-			}
-			else{
-				//collator returns positive if first is first, negavite if second is first, and 0 if equal. Negate the result to invert
-				return this.currentDataView.sort((first, second) => -1*collator.compare(first[column], second[column]));
-			}
 		},
 		getPageOfData(){
 			console.log("getPageOfData called");
@@ -447,7 +447,7 @@ export default {
 				)
 			}
 			else{
-				this.currentDataView = this.trackList
+				this.currentDataView = this.trackList;
 			}
 		},
 		currentDataView(){
