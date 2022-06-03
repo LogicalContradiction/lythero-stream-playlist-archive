@@ -48,7 +48,7 @@ export default {
 	<div id="tableNavBar">
 		<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> &lt&lt </button>
 		<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> &lt </button>
-		<span id="pageIndicator" @click="jumpToPageHandler">
+		<span id="pageIndicator" class="pageIndicator" @click="jumpToPageHandler">
 			<span class="currentPageNum"> {{ currentPageNum }} </span>
 			<span class="pageDivider"> of </span>
 			<span class="maxNumPages"> {{ maxNumPages }} </span>
@@ -313,11 +313,17 @@ export default {
 				this.hideIncrementButtons();
 				//and disable jumping
 				this.canJumpPages = false;
+				//also remove the class on the page indicator since it's no longer clickable
+				document.getElementById("pageIndicator").className = "";
 			}
 			else{
 				this.unhideIncrementButtons();
 				if(!this.canJumpPages){
 					this.canJumpPages = true;
+				}
+				//reenable the hover
+				if(document.getElementById("pageIndicator").className !== "pageIndicator"){
+					document.getElementById("pageIndicator").className = "pageIndicator";
 				}
 			}
 		},

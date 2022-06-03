@@ -136,14 +136,17 @@ tr:nth-child(even) {
 }
 
 #pageIndicator {
-	cursor: pointer;
 	padding-top: 0.125em;
 	padding-bottom: 0.125em;
 	padding-left: 0.3125em;
 	padding-right: 0.3125em;
 }
 
-.tableNavButton:hover, #pageIndicator:hover {
+.pageIndicator {
+	cursor: pointer;
+}
+
+.tableNavButton:hover, .pageIndicator:hover {
 	background-color: #cccccc;
 	/*border-color: #eeeeee;*/
 }
