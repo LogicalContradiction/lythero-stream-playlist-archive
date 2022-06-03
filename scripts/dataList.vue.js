@@ -75,6 +75,7 @@ export default {
 
 			jumpToPageNumPlaceholder: "Page #: 1-" + Math.ceil(this.trackList.length / 25),
 			jumpToPageNumEntry: "",
+			canJumpPages: true,
 
 		};
 	},
@@ -306,6 +307,19 @@ export default {
 			console.log("maxNumPages:", this.maxNumPages);
 			//now update the placeholder text for jumping to a page
 			this.jumpToPageNumPlaceholder = "Page #: 1-" + this.maxNumPages;
+			//if the max number of pages is 1, hide the buttons since there are no other pages
+			if (this.maxNumPages === 1){
+				this.hideDecrementButtons();
+				this.hideIncrementButtons();
+				//and disable jumping
+				this.canJumpPages = false;
+			}
+			else{
+				this.unhideIncrementButtons();
+				if(!this.canJumpPages){
+					this.canJumpPages = true;
+				}
+			}
 		},
 		goToFirstPage(){
 			//consider using this function wherever I want to return to the first page in other functions
@@ -358,12 +372,14 @@ export default {
 		},
 		jumpToPageHandler(){
 			console.log("jumpToPageHandler called");
-			//first hide the page indicator
-			document.getElementById("pageIndicator").style.display = "none";
-			//now unhide the textbox
-			document.getElementById("jumpPageEntry").style.display = "inline";
-			//and set the focus to the textbox
-			document.getElementById("jumpPageEntry").focus()
+			if(this.canJumpPages){
+				//first hide the page indicator
+				document.getElementById("pageIndicator").style.display = "none";
+				//now unhide the textbox
+				document.getElementById("jumpPageEntry").style.display = "inline";
+				//and set the focus to the textbox
+				document.getElementById("jumpPageEntry").focus()
+			}
 		},
 		jumpToPageTextInputUnfocusHandler(){
 			//this will cancel the jump, so just switch the hide elements
