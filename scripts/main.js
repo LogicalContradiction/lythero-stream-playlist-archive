@@ -1,10 +1,12 @@
 import DataList from "./dataList.vue.js"
+import Footer from "./footer.vue.js"
 import TrackData from "./trackData.js"
 
 export default {
 	name : 'app',
 	components: {
-		DataList
+		DataList,
+		Footer
 	},
 	data() {
 		return {
@@ -22,6 +24,8 @@ export default {
 	</p>
 
 	<DataList :trackList="trackData"></DataList>
+
+	<Footer></Footer>
 	`,
 	methods(){
 

@@ -213,3 +213,32 @@ a:link {
 	padding-right: 5px;*/
 	padding: 0.3125em;
 }
+
+.footerIcon {
+	vertical-align: middle;
+	padding: 0.3125em;
+}
+
+.footerRow {
+	padding-left: 0.3125em;
+	padding-right: 0.3125em;
+}
+
+.twitchFooterRow {
+	padding-top: 0.78125em;
+	padding-bottom: 0.78125em;
+}
+
+.youtubeFooterRow {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.twitterFooterRow {
+	padding-top: 0.4375em;
+	padding-bottom: 0.4375em;
+}
+
+.footerRow:hover {
+	background-color: white;
+}
