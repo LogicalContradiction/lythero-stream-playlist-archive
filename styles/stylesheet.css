@@ -194,7 +194,7 @@ a:link {
 	margin-right: 5px;
 	padding-left: 5px;
 	padding-right: 5px;*/
-	padding: 5px;
+	padding: 0.3125em;
 }
 
 .unselectedResultsPerPage:hover {
