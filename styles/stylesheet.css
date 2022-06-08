@@ -1,5 +1,6 @@
 body {
 	background-color: #dee2e6;
+	padding-bottom: 4.5em;
 }
 
 #app {
@@ -241,4 +242,59 @@ a:link {
 
 .footerRow:hover {
 	background-color: white;
+}
+
+.leftFooter {
+	width: 33.33%;
+	float: left;
+	margin-right: auto;
+}
+
+.centerFooter {
+	width: 33.33%;
+	float: left;
+	display: grid;
+	justify-content: center;
+}
+
+.rightFooter {
+	width: 33.33%;
+	float: right;
+}
+
+#footer {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 14px;
+}
+
+#footer a:link, #footer a:visited {
+	color: #555;
+}
+
+.rightFooterText {
+	float: right;
+}
+
+.leftFooterText {
+	float: left;
+}
+
+.centerFooterText {
+	float: left;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #bbb;
+	margin: 1em 0 0.5em 0;
+	padding: 0;
+}
+
+#footerLabelText {
+	margin-left: 1%;
+	color: #555;
 }
