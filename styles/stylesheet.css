@@ -9,6 +9,7 @@ body {
 	width: /*98%*/ 76.1875em;
 	margin-left: auto;
 	margin-right: auto;
+	padding-bottom: 2.125em;
 }
 
 #dataTable {
@@ -165,7 +166,7 @@ tr:nth-child(even) {
 
 #tableNavBar {
 	text-align: center;
-	margin-top: 0.9375em;
+	margin-top: 2em;
 }
 
 a:link {
@@ -269,14 +270,14 @@ a:link {
 	float: right;
 }
 
-#footer {
+#footerLinks {
 	width: 76.1875em;
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 14px;
 }
 
-#footer a:link, #footer a:visited {
+#footerLinks a:link, #footerLinks a:visited {
 	color: #555;
 }
 
@@ -307,6 +308,7 @@ hr {
 #footerLabelText {
 	margin-left: 1%;
 	color: #555;
+	margin-bottom: 0.0625em;
 }
 
 #footerTextBox {
@@ -316,10 +318,14 @@ hr {
 	padding-bottom: 0.3125em;
 }
 
-.testFooter {
+.footerDataLink {
 	padding: 0.15625em 0.3125em;
 }
 
-.testFooter:hover{
+.footerDataLink:hover{
 	background-color: white;
+}
+
+#footer {
+	margin-top: 4.0625em;
 }

@@ -45,7 +45,6 @@ export default {
 				<span class="unselectedResultsPerPage" id="resultsPerPageMost" @click="resultsPerPageClickHandler('resultsPerPageMost')">100</span>
 				<span class="unselectedResultsPerPage" id="resultsPerPageAll" @click="resultsPerPageClickHandler('resultsPerPageAll')">All</span>
 		</div>
-		<br>
 		<div id="tableNavBar">
 			<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> &lt&lt </button>
 			<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> &lt </button>
