@@ -1,61 +1,63 @@
 export default {
 	name: "DataList",
 	template: `
-	<label for="filterTextEntry"> Filter: </label>
-	<input type="text" id="filterTextEntry" v-model="textFilter" :placeholder="textFilterPlaceholderText">
-	<button type="button" id="filterButton" @click="clearButtonHandler">Clear</button>
-	<table>
-		<tr>
-			<th class="sortableHeader headerRow titleColumn" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')">
-				Title <div class="triangle" id="songTitleTriangle"> ▾ </div>
-			</th>
-			<th class="sortableHeader headerRow nameColumn" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> 
-				Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
-			</th>
-			<th class="sortableHeader headerRow sourceColumn" @click="headerLabelClickHandler('sourceMedia', 'sourceMediaTriangle')" @mouseenter="mouseEnterHeaderHandler('sourceMedia', 'sourceMediaTriangle')" @mouseleave="mouseLeaveHeaderHandler('sourceMedia', 'sourceMediaTriangle')">
-				Source Media <div class="triangle" id="sourceMediaTriangle"> ▾ </div>
-			</th>
-			<th class="sortableHeader headerRow albumColumn" @click="headerLabelClickHandler('album', 'albumTriangle')" @mouseenter="mouseEnterHeaderHandler('album', 'albumTriangle')" @mouseleave="mouseLeaveHeaderHandler('album', 'albumTriangle')">
-				Album <div class="triangle" id="albumTriangle"> ▾ </div>
-			</th>
-			<th class="headerRow infoColumn"> Additional Info </th>
-		</tr>
-		<tr class="tableRow" v-for="item in displayData" :key="item.id">
-			<td class="titleColumn" v-if="isValidSongLink(item.songLink)"><a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
-			<td class="titleColumn" v-else> {{ item.songTitle}} </td>
-			<td class="nameColumn"> {{ item.playerName }} </td>
-			<td class="sourceColumn"> {{ item.sourceMedia }} </td>
-			<td class="albumColumn" v-if="isValidAlbumLink(item.albumPurchaseLink)"> <a :href="item.albumPurchaseLink" target="_blank"> {{ item.album }} </a></td>
-			<td class="albumColumn" v-else> {{ item.album }} </td>
-			<td class="infoColumn">
-				<div v-if="isValidDBLink(item.albumDatabaseLink)"> <a :href="item.albumDatabaseLink" target="_blank"> Album Info </a> </div>
-				<div v-if="isNotesJustLink(item.notes)" v-html="item.notes"> </div>
-				<div v-else-if="isValidNotes(item.notes)">
-					<div class="notesHider" :id="'notesText'+ item.id" @click="notesClickHandler(item.id)"> Click to show notes ▸ </div>
-					<div class="hidden" :id="'hidden' + item.id" v-html="item.notes"> </div>
-				</div>
-			</td>
-		</tr>
-	</table>
-	<div id="resultsPerPageBar">
-		Results per page: 
-			<span class="selectedResultsPerPage" id="resultsPerPageLeast" @click="resultsPerPageClickHandler('resultsPerPageLeast')">25</span>
-			<span class="unselectedResultsPerPage" id="resultsPerPageMid" @click="resultsPerPageClickHandler('resultsPerPageMid')">50</span>
-			<span class="unselectedResultsPerPage" id="resultsPerPageMost" @click="resultsPerPageClickHandler('resultsPerPageMost')">100</span>
-			<span class="unselectedResultsPerPage" id="resultsPerPageAll" @click="resultsPerPageClickHandler('resultsPerPageAll')">All</span>
-	</div>
-	<br>
-	<div id="tableNavBar">
-		<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> &lt&lt </button>
-		<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> &lt </button>
-		<span id="pageIndicator" class="pageIndicator" @click="jumpToPageHandler">
-			<span class="currentPageNum"> {{ currentPageNum }} </span>
-			<span class="pageDivider"> of </span>
-			<span class="maxNumPages"> {{ maxNumPages }} </span>
-		</span>
-		<input type="text" id="jumpPageEntry" v-model="jumpToPageNumEntry" @blur="jumpToPageTextInputUnfocusHandler" @keyup.enter="jumpToPageTextInputEnterHandler" :placeholder="jumpToPageNumPlaceholder">
-		<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> &gt </button>
-		<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> &gt&gt </button>
+	<div id="dataTable">
+		<label for="filterTextEntry"> Filter: </label>
+		<input type="text" id="filterTextEntry" v-model="textFilter" :placeholder="textFilterPlaceholderText">
+		<button type="button" id="filterButton" @click="clearButtonHandler">Clear</button>
+		<table>
+			<tr>
+				<th class="sortableHeader headerRow titleColumn" @click="headerLabelClickHandler('songTitle', 'songTitleTriangle')" @mouseenter="mouseEnterHeaderHandler('songTitle', 'songTitleTriangle')" @mouseleave="mouseLeaveHeaderHandler('songTitle', 'songTitleTriangle')">
+					Title <div class="triangle" id="songTitleTriangle"> ▾ </div>
+				</th>
+				<th class="sortableHeader headerRow nameColumn" @click="headerLabelClickHandler('playerName', 'playerNameTriangle')" @mouseenter="mouseEnterHeaderHandler('playerName', 'playerNameTriangle')" @mouseleave="mouseLeaveHeaderHandler('playerName', 'playerNameTriangle')"> 
+					Name in Player <div class="triangle" id="playerNameTriangle"> ▾ </div>
+				</th>
+				<th class="sortableHeader headerRow sourceColumn" @click="headerLabelClickHandler('sourceMedia', 'sourceMediaTriangle')" @mouseenter="mouseEnterHeaderHandler('sourceMedia', 'sourceMediaTriangle')" @mouseleave="mouseLeaveHeaderHandler('sourceMedia', 'sourceMediaTriangle')">
+					Source Media <div class="triangle" id="sourceMediaTriangle"> ▾ </div>
+				</th>
+				<th class="sortableHeader headerRow albumColumn" @click="headerLabelClickHandler('album', 'albumTriangle')" @mouseenter="mouseEnterHeaderHandler('album', 'albumTriangle')" @mouseleave="mouseLeaveHeaderHandler('album', 'albumTriangle')">
+					Album <div class="triangle" id="albumTriangle"> ▾ </div>
+				</th>
+				<th class="headerRow infoColumn"> Additional Info </th>
+			</tr>
+			<tr class="tableRow" v-for="item in displayData" :key="item.id">
+				<td class="titleColumn" v-if="isValidSongLink(item.songLink)"><a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
+				<td class="titleColumn" v-else> {{ item.songTitle}} </td>
+				<td class="nameColumn"> {{ item.playerName }} </td>
+				<td class="sourceColumn"> {{ item.sourceMedia }} </td>
+				<td class="albumColumn" v-if="isValidAlbumLink(item.albumPurchaseLink)"> <a :href="item.albumPurchaseLink" target="_blank"> {{ item.album }} </a></td>
+				<td class="albumColumn" v-else> {{ item.album }} </td>
+				<td class="infoColumn">
+					<div v-if="isValidDBLink(item.albumDatabaseLink)"> <a :href="item.albumDatabaseLink" target="_blank"> Album Info </a> </div>
+					<div v-if="isNotesJustLink(item.notes)" v-html="item.notes"> </div>
+					<div v-else-if="isValidNotes(item.notes)">
+						<div class="notesHider" :id="'notesText'+ item.id" @click="notesClickHandler(item.id)"> Click to show notes ▸ </div>
+						<div class="hidden" :id="'hidden' + item.id" v-html="item.notes"> </div>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div id="resultsPerPageBar">
+			Results per page: 
+				<span class="selectedResultsPerPage" id="resultsPerPageLeast" @click="resultsPerPageClickHandler('resultsPerPageLeast')">25</span>
+				<span class="unselectedResultsPerPage" id="resultsPerPageMid" @click="resultsPerPageClickHandler('resultsPerPageMid')">50</span>
+				<span class="unselectedResultsPerPage" id="resultsPerPageMost" @click="resultsPerPageClickHandler('resultsPerPageMost')">100</span>
+				<span class="unselectedResultsPerPage" id="resultsPerPageAll" @click="resultsPerPageClickHandler('resultsPerPageAll')">All</span>
+		</div>
+		<br>
+		<div id="tableNavBar">
+			<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> &lt&lt </button>
+			<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> &lt </button>
+			<span id="pageIndicator" class="pageIndicator" @click="jumpToPageHandler">
+				<span class="currentPageNum"> {{ currentPageNum }} </span>
+				<span class="pageDivider"> of </span>
+				<span class="maxNumPages"> {{ maxNumPages }} </span>
+			</span>
+			<input type="text" id="jumpPageEntry" v-model="jumpToPageNumEntry" @blur="jumpToPageTextInputUnfocusHandler" @keyup.enter="jumpToPageTextInputEnterHandler" :placeholder="jumpToPageNumPlaceholder">
+			<button type="button" id="incPageNumButton" class="tableNavButton" @click="incrementPageNum"> &gt </button>
+			<button type="button" id="lastPageButton" class="tableNavButton" @click="goToLastPage"> &gt&gt </button>
+		</div>
 	</div>
 	`,
 	data(){

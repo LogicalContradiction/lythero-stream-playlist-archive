@@ -1,13 +1,20 @@
 body {
 	background-color: #dee2e6;
-	padding-bottom: 4.5em;
+	font-family: arial, sans-serif;
+	padding-bottom: 6em;
+	padding-top: 0.5em;
 }
 
-#app {
+#header {
 	width: /*98%*/ 76.1875em;
 	margin-left: auto;
 	margin-right: auto;
-	font-family: arial, sans-serif;
+}
+
+#dataTable {
+	width: /*98% 72.375em*/ 74.5em;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #filterTextEntry {
@@ -263,7 +270,7 @@ a:link {
 }
 
 #footer {
-	width: 80%;
+	width: 76.1875em;
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 14px;
@@ -292,9 +299,27 @@ hr {
 	border-top: 1px solid #bbb;
 	margin: 1em 0 0.5em 0;
 	padding: 0;
+	width: 76.1875em;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #footerLabelText {
 	margin-left: 1%;
 	color: #555;
+}
+
+#footerTextBox {
+	width: 76.1875em;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 0.3125em;
+}
+
+.testFooter {
+	padding: 0.15625em 0.3125em;
+}
+
+.testFooter:hover{
+	background-color: white;
 }

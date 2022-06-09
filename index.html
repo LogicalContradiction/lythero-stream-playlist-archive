@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 
-  <head>
-    <title>Lythero Stream Music Playlist Archive</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="https://unpkg.com/vue@3"></script>
-    <link rel="stylesheet" href="./styles/stylesheet.css">
-  </head>
+	<head>
+		<title>Lythero Stream Music Playlist Archive</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="text/javascript" src="https://unpkg.com/vue@3"></script>
+		<link rel="stylesheet" href="./styles/stylesheet.css">
+	</head>
 
-  <body>
-
-    <div id="app"></div>
+	<body>
+		<div id="header">
+			<h1> The Lythero Stream Music Playlist Archive </h1>
+			<p>This is a fan-made website dedicated to keeping track of the songs in Lythero's stream music playlist.</p>
+			<p> 
+				<a href="https://www.youtube.com/playlist?list=PLyJnpt1dBcUd-HUtG9ns-Rvswuel5JlbZ" target="_blank">This YouTube playlist</a> (not all the songs are on YouTube).
+			</p>
+			<p>
+				<a href="https://www.youtube.com/playlist?list=PLQFIg1qsgNezAe6-3NgtfTRZlaQXo46LX" target="_blank">Another YouTube playlist</a> (this playlist is not affiliated with this list or webpage).
+			</p>
+		</div>
+		<br>
+		<br>
+		<div id="app"></div>
 
   </body>
 
 
-  <script type="module">
-    import app from './scripts/main.js'
-    Vue.createApp(app).mount('#app');
-  </script>
+	<script type="module">
+		import app from './scripts/main.js'
+		Vue.createApp(app).mount('#app');
+	</script>
 
 </html>
