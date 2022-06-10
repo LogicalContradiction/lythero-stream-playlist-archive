@@ -1,15 +1,36 @@
 body {
 	background-color: #dee2e6;
 	font-family: arial, sans-serif;
-	padding-bottom: 6em;
-	padding-top: 0.5em;
+	margin-bottom: 6em;
+	margin-top: 0.5em;
 }
 
-#header {
+h1 {
+	text-decoration: underline;
+}
+
+.playlistText {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+#playlistLinks {
+	margin-top: 24px;
+}
+
+#pageExplanation {
+	margin-bottom: 34px;
+}
+
+#pageHeader {
+	margin-bottom: 0.75em;
+}
+
+#beforeTable {
 	width: /*98%*/ 76.1875em;
 	margin-left: auto;
 	margin-right: auto;
-	padding-bottom: 2.125em;
+	margin-bottom: 60px;
 }
 
 #dataTable {

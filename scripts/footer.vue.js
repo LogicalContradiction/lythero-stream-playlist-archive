@@ -1,7 +1,7 @@
 export default {
 	name: 'Footer',
 	template: `
-	<div id="footer">
+	<footer id="footer">
 		<hr/>
 		<div id="footerTextBox">
 			<div id="footerLabelText"> Lythero's Links:</div>
@@ -35,7 +35,7 @@ export default {
 				</div>
 			</div>
 		</div>
-	</div>
+	</footer>
 	`,
 	data(){
 		return {
