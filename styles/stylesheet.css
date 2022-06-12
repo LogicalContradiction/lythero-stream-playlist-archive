@@ -9,6 +9,10 @@ h1 {
 	text-decoration: underline;
 }
 
+#instructions {
+	margin-bottom: 12px;
+}
+
 .playlistText {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
