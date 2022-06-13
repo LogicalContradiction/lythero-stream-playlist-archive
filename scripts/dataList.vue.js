@@ -82,7 +82,6 @@ export default {
 	},
 	computed: {
 		displayData(){
-			console.log("displayData called");
 			//now sort the results according to the current sort
 			let collator = new Intl.Collator("en", {sensitivity: "base"});
 			if(this.ascending){
@@ -98,7 +97,6 @@ export default {
 	},
 	methods: {
 		basicFiltering(){
-			console.log("basicFiltering called");
 			if(this.textFilter !== ""){
 				let searchText = this.textFilter.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
 				this.currentDataView = this.trackList.filter((element) => (element.songTitle.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1) || (element.playerName.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(searchText) != -1))
@@ -106,7 +104,6 @@ export default {
 			return
 		},
 		clearButtonHandler(){
-			console.log("clearButtonHandler called");
 			this.textFilter = "";
 			document.getElementById("filterTextEntry").focus();
 		},
@@ -229,14 +226,12 @@ export default {
 			this.goToFirstPage();
 		},
 		getPageOfData(){
-			console.log("getPageOfData called");
 			let startIndex = (this.currentPageNum - 1) * this.numEntriesPerPage;
 			let endIndex = this.currentPageNum * this.numEntriesPerPage;
 
 			return this.currentDataView.slice(startIndex, endIndex);
 		},
 		incrementPageNum(){
-			console.log("incrementPageNum called");
 			if(!(this.currentPageNum+1 > this.maxNumPages)){
 				//check to see if decrement buttons need to be unhid
 				if(this.currentPageNum === 1){
@@ -250,10 +245,8 @@ export default {
 				//now scroll to top
 				this.scrollToTopofTable();
 			}
-			console.log("pageNum:", this.currentPageNum);
 		},
 		decrementPageNum(){
-			console.log("decrementPageNum called");
 			if(!(this.currentPageNum-1 <= 0)){
 				//check to see if increment buttons need to be unhid
 				if(this.currentPageNum === this.maxNumPages){
@@ -265,7 +258,6 @@ export default {
 					this.hideDecrementButtons();
 				}
 			}
-			console.log("pageNum:", this.currentPageNum);
 			//now scroll to top
 			this.scrollToTopofTable();
 		},
@@ -288,7 +280,6 @@ export default {
 			}
 		},
 		changeNumEntriesPerPage(newNumEntries){
-			console.log("num entries change called")
 			if(this.numEntriesPerPage != newNumEntries){
 				//this.currentPageNum = 1;
 				this.goToFirstPage();
@@ -296,9 +287,7 @@ export default {
 			}
 		},
 		setMaxNumPages(){
-			console.log("setMaxNumPages called");
 			this.maxNumPages = Math.ceil(this.currentDataView.length / this.numEntriesPerPage);
-			console.log("maxNumPages:", this.maxNumPages);
 			//now update the placeholder text for jumping to a page
 			this.jumpToPageNumPlaceholder = "Page #: 1-" + this.maxNumPages;
 			//if the max number of pages is 1, hide the buttons since there are no other pages
@@ -371,7 +360,6 @@ export default {
 			}
 		},
 		jumpToPageHandler(){
-			console.log("jumpToPageHandler called");
 			if(this.canJumpPages){
 				//first hide the page indicator
 				document.getElementById("pageIndicator").style.display = "none";
@@ -387,7 +375,6 @@ export default {
 		},
 		jumpToPageTextInputEnterHandler(){
 			if(this.jumpToPageNumEntry !== ""){
-				console.log("Page number entered:",this.jumpToPageNumEntry);
 				this.goToPage(this.jumpToPageNumEntry);
 				this.jumpToPageNumEntry = "";
 			}
@@ -430,13 +417,11 @@ export default {
 			}
 		},
 		scrollToTopofTable(){
-			console.log("called");
 			document.getElementById("filterTextEntry").scrollIntoView({behavior: "smooth"});
 		}
 	},
 	watch: {
 		textFilter(){
-			console.log("change in textFilter");
 			this.goToFirstPage();
 			if(this.textFilter !== ""){
 				let searchText = this.textFilter.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
