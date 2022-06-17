@@ -1,7 +1,8 @@
 ## The Lythero Stream Music Playlist Archive
 
 A tool to keep track of songs in Lythero's stream playlist. Provides simple filter functions to allow users to find a particular song.  
-See it at: https://logicalcontradiction.github.io/lythero-stream-playlist-archive
+See it at: https://logicalcontradiction.github.io/lythero-stream-playlist-archive  
+View the YouTube playlist here: https://www.youtube.com/playlist?list=PLyJnpt1dBcUd-HUtG9ns-Rvswuel5JlbZ
 
 Follow Lythero here:
 * [
