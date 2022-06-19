@@ -21,7 +21,8 @@ export default {
 				</th>
 				<th class="headerRow infoColumn"> Additional Info </th>
 			</tr>
-			<tr class="tableRow" v-for="item in displayData" :key="item.id">
+
+			<tr class="tableRow" v-if="this.currentDataView.length > 0" v-for="item in displayData" :key="item.id">
 				<td class="titleColumn" v-if="isValidSongLink(item.songLink)"><a :href="item.songLink" target="_blank"> {{ item.songTitle }} </a></td>
 				<td class="titleColumn" v-else> {{ item.songTitle}} </td>
 				<td class="nameColumn"> {{ item.playerName }} </td>
@@ -37,6 +38,11 @@ export default {
 					</div>
 				</td>
 			</tr>
+
+			<tr class="tableRow" v-else> 
+				<td colspan="5" class="noResultsTableRow"> No results found. Please revise your search and try again. </td>
+			</tr>
+
 		</table>
 		<div id="resultsPerPageBar">
 			Results per page: 
@@ -45,7 +51,7 @@ export default {
 				<span class="unselectedResultsPerPage" id="resultsPerPageMost" @click="resultsPerPageClickHandler('resultsPerPageMost')">100</span>
 				<span class="unselectedResultsPerPage" id="resultsPerPageAll" @click="resultsPerPageClickHandler('resultsPerPageAll')">All</span>
 		</div>
-		<div id="tableNavBar">
+		<div id="tableNavBar" v-show="this.currentDataView.length > 0">
 			<button type="button" id="firstPageButton" class="tableNavButton" @click="goToFirstPage"> &lt&lt </button>
 			<button type="button" id="decPageNumButton" class="tableNavButton" @click="decrementPageNum"> &lt </button>
 			<span id="pageIndicator" class="pageIndicator" @click="jumpToPageHandler">

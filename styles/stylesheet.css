@@ -354,3 +354,7 @@ hr {
 #footer {
 	margin-top: 4.0625em;
 }
+
+.noResultsTableRow {
+	text-align: center;
+}
