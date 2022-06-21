@@ -3,7 +3,7 @@ export default {
 	template: `
 	<div id="dataTable">
 		<label for="filterTextEntry"> Filter: </label>
-		<input type="text" id="filterTextEntry" v-model="textFilter" :placeholder="textFilterPlaceholderText">
+		<input type="text" id="filterTextEntry" :value="textFilter" @input="evt=>textFilter=evt.target.value" :placeholder="textFilterPlaceholderText">
 		<button type="button" id="filterButton" @click="clearButtonHandler">Clear</button>
 		<table>
 			<tr>
